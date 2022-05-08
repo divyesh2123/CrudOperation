@@ -26,9 +26,29 @@ namespace CrudOperation.Controllers
         {
             EmployeeDepartmentViewModel employeeDepartmentViewModel = new EmployeeDepartmentViewModel();
 
-          
+            IDepartmentRepositroy departmentRepositroy = new DepartmentRepositroy();
 
-                return View(employeeDepartmentViewModel);
+            employeeDepartmentViewModel.Data = departmentRepositroy.GetDapartments();
+
+
+
+             return View(employeeDepartmentViewModel);
+        }
+
+
+        public ActionResult EditEmployee(int employeeId)
+        {
+            IEmployeeRepository employeeRepository = new EmployeeRepository();
+
+            IDepartmentRepositroy departmentRepositroy = new DepartmentRepositroy();
+
+            var myResult = employeeRepository.GetEmployeeByID(employeeId);
+
+            myResult.Data = departmentRepositroy.GetDapartments();
+
+
+            return View("Create", myResult);
+
         }
 
         [HttpPost]
@@ -36,13 +56,29 @@ namespace CrudOperation.Controllers
         {
             IEmployeeRepository employeeRepository = new EmployeeRepository();
 
-            var myResult = employeeRepository.InsertEmployeeInfo(employeeDepartmentViewModel);
+            var myResult = employeeRepository.InsertUpdateEmployeeInfo(employeeDepartmentViewModel);
 
             if(myResult)
             {
 
                 return RedirectToAction("Index");
             }
+
+            return View();
+
+
+        }
+
+
+
+        public ActionResult DeleteEmployee(int employeeId)
+        {
+            IEmployeeRepository employeeRepository = new EmployeeRepository();
+
+           var r = employeeRepository.EmployeeDelete(employeeId);
+
+
+            return RedirectToAction("Index");
 
 
         }

@@ -12,6 +12,41 @@ namespace CrudOperation.Concerate
     public class EmployeeRepository : IEmployeeRepository
 
     {
+        public bool EmployeeDelete(int employeeId)
+        {
+            using (EMSEntities eMS = new EMSEntities())
+            {
+                var myresullt = eMS.Employees.Where(y => y.ID == employeeId).FirstOrDefault();
+
+                eMS.Employees.Remove(myresullt);
+
+                var my =   eMS.SaveChanges() > 0 ? true : false;
+
+                return my;
+
+
+
+            }
+        }
+
+        public EmployeeDepartmentViewModel GetEmployeeByID(int employeeId)
+        {
+
+            using (EMSEntities eMS = new EMSEntities())
+            {
+                var myresult = eMS.Employees.Where(y => y.ID == employeeId).FirstOrDefault();
+
+                
+
+
+
+                return myresult.ToViewModel();
+
+
+            }
+
+        }
+
         public List<EmployeeDepartmentViewModel> GetEmployeeInfo()
         {
             List<EmployeeDepartmentViewModel> employees = new List<EmployeeDepartmentViewModel>();
@@ -44,17 +79,38 @@ namespace CrudOperation.Concerate
             return employees;
         }
 
-        public bool InsertEmployeeInfo(EmployeeDepartmentViewModel employeeDepartmentViewModel)
+        public bool InsertUpdateEmployeeInfo(EmployeeDepartmentViewModel employeeDepartmentViewModel)
         {
 
             using (EMSEntities eMS = new EMSEntities())
             {
 
-                var myResult = eMS.Employees.Add(employeeDepartmentViewModel.ToViewMode());
+                if (employeeDepartmentViewModel.EmployeeId == 0)
+                {
 
-                var myres = eMS.SaveChanges();
+                    var myResult = eMS.Employees.Add(employeeDepartmentViewModel.ToViewMode());
 
-                return myres > 0 ? true : false;
+                    var myres = eMS.SaveChanges();
+
+                    return myres > 0 ? true : false;
+
+                }
+                else
+                {
+                    var myme = eMS.Employees.Where(y => y.ID == employeeDepartmentViewModel.EmployeeId).FirstOrDefault();
+
+                    myme.State = employeeDepartmentViewModel.State;
+                    myme.City = employeeDepartmentViewModel.City;
+                    myme.FirstName = employeeDepartmentViewModel.FirstName;
+                    myme.LastName = employeeDepartmentViewModel.LastName;
+                    myme.DepartmentID = employeeDepartmentViewModel.DepartmentId;
+                    myme.ZipCode = employeeDepartmentViewModel.ZipCode;
+
+                    return eMS.SaveChanges() > 0 ? true : false;
+
+
+                }
+
 
             }
 

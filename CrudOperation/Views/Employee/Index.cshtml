@@ -31,8 +31,8 @@
     <td>@myData.City</td>
     <td>@myData.State</td>
     <td>@myData.ZipCode</td>
-    <td>Delete</td>
-    <td>Edit</td>
+    <td><a href="@Url.Action("EditEmployee","Employee", new { employeeId = myData.EmployeeId})">Edit</a> </td>
+    <td> <a href="@Url.Action("DeleteEmployee","Employee", new { employeeId = myData.EmployeeId})">Delete</a> </td>
 
 
 </tr>

@@ -9,8 +9,16 @@ namespace CrudOperation.Interface
 {
     public interface IEmployeeRepository
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
          List<EmployeeDepartmentViewModel> GetEmployeeInfo();
 
-        bool InsertEmployeeInfo(EmployeeDepartmentViewModel employeeDepartmentViewModel);
+        bool InsertUpdateEmployeeInfo(EmployeeDepartmentViewModel employeeDepartmentViewModel);
+
+        bool EmployeeDelete(int employeeId);
+
+        EmployeeDepartmentViewModel GetEmployeeByID(int employeeId);
     }
 }
